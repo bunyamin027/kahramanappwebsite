@@ -1,0 +1,138 @@
+.not-found-container {
+  min-height: 100vh;
+  width: 100vw;
+  background-color: #040a15;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+  color: white;
+}
+
+.not-found-scanlines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0) 50%,
+    rgba(0, 0, 0, 0.2) 50%,
+    rgba(0, 0, 0, 0.2)
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 10;
+  opacity: 0.6;
+}
+
+.not-found-content {
+  text-align: center;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 2rem;
+  background: rgba(10, 10, 26, 0.4);
+  border: 1px solid rgba(0, 240, 255, 0.2);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 0 30px rgba(0, 240, 255, 0.1);
+}
+
+.not-found-title {
+  font-size: 8rem;
+  font-weight: 900;
+  line-height: 1;
+  margin: 0;
+  color: #ff00aa;
+  text-shadow: 0 0 20px rgba(255, 0, 170, 0.5),
+               2px 2px 0px #00f0ff,
+               -2px -2px 0px #00f0ff;
+  position: relative;
+  letter-spacing: -0.05em;
+}
+
+.not-found-title::before,
+.not-found-title::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.8;
+}
+
+.not-found-title::before {
+  color: #00f0ff;
+  z-index: -1;
+  transform: translate(-4px, 2px);
+}
+
+.not-found-title::after {
+  color: #ff00aa;
+  z-index: -2;
+  transform: translate(4px, -2px);
+}
+
+.not-found-subtitle {
+  font-family: 'Courier Prime', monospace;
+  font-size: 1.5rem;
+  letter-spacing: 0.2em;
+  color: #00f0ff;
+  margin: 0;
+  border-bottom: 1px solid rgba(0, 240, 255, 0.3);
+  padding-bottom: 0.5rem;
+}
+
+.not-found-desc {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+  max-width: 400px;
+}
+
+.not-found-btn {
+  margin-top: 1rem;
+  padding: 1rem 2rem;
+  background: transparent;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  border: 1px solid #00f0ff;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.not-found-btn:hover {
+  background: rgba(0, 240, 255, 0.1);
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+  color: #00f0ff;
+}
+
+.not-found-btn-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(0, 240, 255, 0.4) 0%, transparent 70%);
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.3s ease;
+  pointer-events: none;
+}
+
+.not-found-btn:hover .not-found-btn-glow {
+  transform: translate(-50%, -50%) scale(2);
+}

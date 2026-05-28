@@ -1,0 +1,91 @@
+.waitlist-container {
+  width: 320px;
+  background: rgba(5, 5, 15, 0.85);
+  border: 1px solid rgba(0, 240, 255, 0.4);
+  border-radius: 4px;
+  padding: 1.5rem;
+  text-align: center;
+  font-family: "Courier New", Courier, monospace;
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.2), inset 0 0 10px rgba(0, 240, 255, 0.1);
+  color: var(--neon-cyan);
+  /* The capsule rotates with the scene, but HTML keeps its size */
+}
+
+.waitlist-title {
+  font-size: 0.9rem;
+  font-weight: bold;
+  letter-spacing: 0.15em;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 5px var(--neon-cyan);
+}
+
+.waitlist-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.waitlist-input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  padding: 0.8rem;
+  color: #fff;
+  font-family: inherit;
+  font-size: 0.85rem;
+  outline: none;
+  border-radius: 2px;
+  transition: all 0.2s;
+}
+
+.waitlist-input:focus {
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.waitlist-input::placeholder {
+  color: rgba(0, 240, 255, 0.4);
+}
+
+.waitlist-submit {
+  width: 100%;
+  background: rgba(0, 240, 255, 0.15);
+  border: 1px solid var(--neon-cyan);
+  color: var(--neon-cyan);
+  padding: 0.8rem;
+  font-family: inherit;
+  font-weight: bold;
+  font-size: 0.85rem;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.2s;
+  letter-spacing: 0.1em;
+}
+
+.waitlist-submit:hover:not(:disabled) {
+  background: var(--neon-cyan);
+  color: #000;
+  box-shadow: 0 0 15px var(--neon-cyan);
+}
+
+.waitlist-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.waitlist-success {
+  color: #00ff88;
+  font-weight: bold;
+  font-size: 1.2rem;
+  padding: 1.5rem 0;
+  text-shadow: 0 0 10px #00ff88;
+  animation: pulse-glow 1.5s infinite;
+}
+
+.waitlist-error {
+  color: #ff00aa;
+  font-size: 0.75rem;
+  margin-top: 0.8rem;
+  text-shadow: 0 0 5px #ff00aa;
+}

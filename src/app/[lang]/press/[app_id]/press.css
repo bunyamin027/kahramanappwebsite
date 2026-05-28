@@ -1,0 +1,146 @@
+.press-wrapper {
+  position: relative;
+  width: 100vw;
+  min-height: 100vh;
+  background-color: var(--color-bg);
+  overflow-y: auto;
+  overflow-x: hidden;
+  font-family: var(--font-primary);
+  color: var(--color-text);
+}
+
+.press-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, #111 0%, #000 100%);
+  z-index: 0;
+}
+
+.press-scanlines {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0) 50%,
+    rgba(0, 0, 0, 0.25) 50%,
+    rgba(0, 0, 0, 0.25)
+  );
+  background-size: 100% 4px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.press-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 60px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.press-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 20px;
+}
+
+.press-app-icon {
+  width: 128px;
+  height: 128px;
+  border-radius: 24px;
+  object-fit: cover;
+  box-shadow: 0 0 30px rgba(0, 240, 255, 0.3);
+}
+
+.press-title {
+  font-size: 32px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 2px;
+}
+
+.press-tagline {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 600px;
+}
+
+.press-section {
+  background: rgba(10, 10, 15, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 30px;
+  backdrop-filter: blur(10px);
+}
+
+.press-section h2 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 10px;
+}
+
+.press-section p {
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.press-screenshots {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 20px;
+}
+
+.press-screenshot {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.media-kit-btn {
+  width: 100%;
+  padding: 20px;
+  font-size: 18px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #000;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.media-kit-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.2);
+}
+
+.media-kit-btn:active {
+  transform: translateY(0);
+}
+
+.media-kit-btn.loading {
+  opacity: 0.7;
+  cursor: not-allowed;
+}

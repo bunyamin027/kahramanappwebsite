@@ -1,0 +1,104 @@
+.research-container {
+  background: rgba(5, 15, 25, 0.85);
+  border: 1px solid #00aaff;
+  box-shadow: 0 0 20px rgba(0, 170, 255, 0.4), inset 0 0 15px rgba(0, 170, 255, 0.2);
+  border-radius: 8px;
+  padding: 20px;
+  width: 320px;
+  font-family: 'Courier New', Courier, monospace;
+  color: #e0f7ff;
+  user-select: none;
+  backdrop-filter: blur(8px);
+}
+
+.research-title {
+  font-size: 14px;
+  letter-spacing: 2px;
+  color: #00e5ff;
+  text-shadow: 0 0 10px rgba(0, 229, 255, 0.8);
+  margin: 0 0 15px 0;
+  text-align: center;
+  border-bottom: 1px dashed rgba(0, 170, 255, 0.4);
+  padding-bottom: 8px;
+}
+
+.research-tabs {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+  margin-bottom: 15px;
+}
+
+.research-tab-btn {
+  background: rgba(0, 80, 120, 0.2);
+  border: 1px solid rgba(0, 170, 255, 0.4);
+  color: #88ccff;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 9px;
+  padding: 6px 8px;
+  cursor: pointer;
+  border-radius: 4px;
+  flex: 1;
+  transition: all 0.3s ease;
+}
+
+.research-tab-btn:hover {
+  background: rgba(0, 170, 255, 0.2);
+  color: #ffffff;
+}
+
+.research-tab-btn.active {
+  background: rgba(0, 170, 255, 0.4);
+  border-color: #00e5ff;
+  color: #ffffff;
+  box-shadow: 0 0 8px rgba(0, 229, 255, 0.5);
+  text-shadow: 0 0 5px #ffffff;
+}
+
+.research-content {
+  min-height: 120px;
+  font-size: 10px;
+  line-height: 1.5;
+  background: rgba(0, 5, 10, 0.5);
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 170, 255, 0.2);
+  margin-bottom: 15px;
+}
+
+.research-item {
+  margin-bottom: 8px;
+}
+
+.research-item:last-child {
+  margin-bottom: 0;
+}
+
+.research-item-code {
+  color: #00ff88;
+  font-weight: bold;
+  margin-right: 4px;
+}
+
+.research-cta-btn {
+  width: 100%;
+  background: linear-gradient(135deg, rgba(0, 170, 255, 0.4), rgba(0, 80, 200, 0.4));
+  border: 1px solid #00e5ff;
+  color: #ffffff;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
+  text-align: center;
+}
+
+.research-cta-btn:hover {
+  background: linear-gradient(135deg, rgba(0, 229, 255, 0.6), rgba(0, 170, 255, 0.6));
+  box-shadow: 0 0 15px rgba(0, 229, 255, 0.6);
+  text-shadow: 0 0 5px #ffffff;
+}

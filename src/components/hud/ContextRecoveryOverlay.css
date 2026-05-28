@@ -1,0 +1,56 @@
+.context-recovery-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #040a15;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  color: #00f0ff;
+  font-family: 'Courier Prime', monospace;
+}
+
+.context-recovery-loader {
+  width: 60px;
+  height: 60px;
+  border: 4px solid rgba(0, 240, 255, 0.2);
+  border-top-color: #00f0ff;
+  border-radius: 50%;
+  animation: context-spin 1s linear infinite;
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
+  margin-bottom: 2rem;
+}
+
+.context-recovery-text {
+  font-size: 1.2rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  animation: context-pulse 1.5s ease-in-out infinite alternate;
+}
+
+.context-recovery-subtext {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+@keyframes context-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes context-pulse {
+  from {
+    opacity: 0.5;
+    text-shadow: 0 0 5px rgba(0, 240, 255, 0);
+  }
+  to {
+    opacity: 1;
+    text-shadow: 0 0 10px #00f0ff;
+  }
+}

@@ -1,0 +1,78 @@
+.milestone-tracker {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 40;
+  width: 240px;
+  background: rgba(10, 10, 30, 0.6);
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  border-radius: 8px;
+  padding: 0.8rem;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font-family: "Courier New", Courier, monospace;
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.1);
+}
+
+.milestone-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.milestone-title {
+  color: var(--text-secondary);
+}
+
+.milestone-count {
+  color: var(--text-primary);
+}
+
+.milestone-current {
+  color: var(--neon-cyan);
+  text-shadow: 0 0 5px var(--neon-cyan);
+  font-size: 0.8rem;
+}
+
+.milestone-bar-bg {
+  position: relative;
+  width: 100%;
+  height: 8px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 0.4rem;
+}
+
+.milestone-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--neon-blue), var(--neon-cyan));
+  box-shadow: 0 0 10px var(--neon-cyan);
+  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.milestone-scanline {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 4px,
+    rgba(255, 255, 255, 0.1) 4px,
+    rgba(255, 255, 255, 0.1) 8px
+  );
+  pointer-events: none;
+}
+
+.milestone-footer {
+  font-size: 0.6rem;
+  color: var(--neon-pink);
+  text-align: right;
+  letter-spacing: 0.1em;
+  opacity: 0.8;
+}

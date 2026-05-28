@@ -1,65 +1,102 @@
+"use client";
+
 import Image from "next/image";
+import Navbar from "@/components/hud/Navbar";
+import BioDownloadButton from "./link-in-bio/BioDownloadButton";
+import { apps } from "@/data/apps";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function Home() {
+  const { t, lang } = useLanguage();
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="landing-container">
+      <Navbar />
+
+      {/* Hero Section */}
+      <section className="hero-section">
+        <h1 className="hero-title">
+          {t("hero_title_1")} <br />
+          {t("hero_title_2")}
+        </h1>
+        <p className="hero-subtitle">
+          {t("explore_tagline")}
+        </p>
+      </section>
+
+      {/* Apps Section */}
+      <section id="apps" className="apps-section">
+        <div className="apps-grid">
+          {apps.map((app) => {
+            // Extract localized fields dynamically
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const localizedName = (lang === "en" ? app.name : (app as any)[`name_${lang}`]) || app.name;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const localizedTagline = (lang === "en" ? app.tagline : (app as any)[`tagline_${lang}`]) || app.tagline;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const localizedDesc = (lang === "en" ? app.description : (app as any)[`description_${lang}`]) || app.description;
+
+            return (
+              <div 
+                key={app.id} 
+                className="app-card-2d"
+                style={{ "--app-color": app.color } as React.CSSProperties}
+              >
+                <div className="app-card-icon-wrapper">
+                  {app.icon ? (
+                    <Image
+                      src={app.icon}
+                      alt={`${localizedName} icon`}
+                      fill
+                      className="app-card-icon-image"
+                    />
+                  ) : (
+                    <div style={{ width: '100%', height: '100%', background: '#333' }} />
+                  )}
+                </div>
+                <h2 className="app-card-title">{localizedName}</h2>
+                <h3 className="app-card-tagline">{localizedTagline}</h3>
+                <p className="app-card-desc">{localizedDesc}</p>
+                
+                <div style={{ width: '100%', marginTop: 'auto' }}>
+                  <BioDownloadButton appId={app.id} color={app.color} className="main-download-btn" />
+                </div>
+              </div>
+            );
+          })}
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
+      </section>
+
+      {/* About Section */}
+      <section id="about" className="about-section">
+        <div className="about-content">
+          <h2 className="about-title">{t("about_title")}</h2>
+          <p className="about-text">{t("about_text")}</p>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="contact-section">
+        <div className="contact-content">
+          <h2 className="contact-title">{t("contact_title")}</h2>
+          <p className="contact-text">{t("contact_text")}</p>
+          <a href="mailto:kahramandev01@gmail.com" className="contact-button">
+            {t("contact_button")}
           </a>
         </div>
-      </main>
-    </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="landing-footer">
+        <p className="landing-footer-text">
+          &copy; {new Date().getFullYear()} Kahraman App. All rights reserved.
+        </p>
+        <div className="landing-footer-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Contact Us</a>
+        </div>
+      </footer>
+    </main>
   );
 }

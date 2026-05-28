@@ -1,0 +1,205 @@
+.god-mode-trigger {
+  position: fixed;
+  top: 1.5rem;
+  left: 1.5rem;
+  z-index: 50;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: rgba(10, 10, 30, 0.4);
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  color: var(--neon-cyan);
+  font-family: "Courier New", Courier, monospace;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+  transition: all 0.2s ease;
+}
+
+.god-mode-trigger:hover {
+  background: rgba(0, 240, 255, 0.1);
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+}
+
+.god-mode-icon {
+  animation: blink 1s step-end infinite;
+}
+
+.god-mode-console {
+  position: fixed;
+  top: 5rem;
+  left: 1.5rem;
+  z-index: 50;
+  width: 450px;
+  background: rgba(5, 5, 15, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 240, 255, 0.4);
+  border-radius: 12px;
+  box-shadow: 0 0 30px rgba(0, 240, 255, 0.15), inset 0 0 20px rgba(0, 0, 0, 0.8);
+  font-family: "Inter", sans-serif;
+  overflow: hidden;
+  animation: console-slide-in 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes console-slide-in {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.god-mode-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 1.2rem;
+  background: rgba(0, 240, 255, 0.1);
+  border-bottom: 1px solid rgba(0, 240, 255, 0.2);
+}
+
+.god-mode-title {
+  color: var(--neon-cyan);
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-shadow: 0 0 5px var(--neon-cyan);
+}
+
+.god-mode-close {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.god-mode-close:hover {
+  color: var(--neon-pink);
+}
+
+.god-mode-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  padding: 1.2rem;
+}
+
+.god-mode-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.god-mode-label {
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.god-mode-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-family: "Courier New", Courier, monospace;
+  color: var(--text-primary);
+}
+
+.god-mode-subtext {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.god-mode-progress-track {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  margin-top: 0.5rem;
+  overflow: hidden;
+}
+
+.god-mode-progress-fill {
+  height: 100%;
+  background: var(--neon-cyan);
+  box-shadow: 0 0 8px var(--neon-cyan);
+  transition: width 1s ease-out;
+}
+
+.highlight-cyan {
+  color: var(--neon-cyan);
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
+}
+
+.highlight-pink {
+  color: var(--neon-pink);
+  text-shadow: 0 0 10px rgba(255, 0, 170, 0.4);
+}
+
+.highlight-green {
+  color: #00ff88;
+  text-shadow: 0 0 10px rgba(0, 255, 136, 0.4);
+}
+
+.highlight-yellow {
+  color: #ffdd00;
+  text-shadow: 0 0 10px rgba(255, 221, 0, 0.4);
+}
+
+.god-mode-terminal {
+  padding: 1.2rem;
+  background: rgba(0, 0, 0, 0.4);
+  border-top: 1px solid rgba(0, 240, 255, 0.2);
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.5;
+}
+
+.text-cyan {
+  color: var(--neon-cyan);
+}
+
+.blinking-cursor {
+  animation: blink 1s step-end infinite;
+  display: inline-block;
+  color: var(--neon-cyan);
+}
+
+.god-mode-action-btn {
+  background: rgba(0, 240, 255, 0.1);
+  border: 1px solid var(--neon-cyan);
+  border-radius: 8px;
+  color: var(--neon-cyan);
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 1.2rem;
+  margin-top: 0;
+  text-shadow: 0 0 5px rgba(0, 240, 255, 0.5);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.1);
+}
+
+.god-mode-action-btn:hover:not(:disabled) {
+  background: rgba(0, 240, 255, 0.2);
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+}
+
+.god-mode-action-btn:disabled {
+  border-color: rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.02);
+  cursor: not-allowed;
+  text-shadow: none;
+  box-shadow: none;
+}
