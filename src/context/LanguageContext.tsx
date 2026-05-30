@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export type Language = "en" | "tr" | "es" | "de" | "fr" | "ja";
 
@@ -78,6 +79,14 @@ const UI_TRANSLATIONS: Record<string, Record<Language, string>> = {
     de: "Weiterleiten...",
     fr: "Redirection...",
     ja: "リダイレクト中...",
+  },
+  view_details: {
+    en: "View Details →",
+    tr: "Detayları Gör →",
+    es: "Ver Detalles →",
+    de: "Details Ansehen →",
+    fr: "Voir les Détails →",
+    ja: "詳細を見る →",
   },
   hero_title_1: {
     en: "Next-Gen AI",
@@ -257,10 +266,14 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
+  const router = useRouter();
+
   const setLanguage = (newLang: Language) => {
     setLangState(newLang);
     // Write language cookie with 1 year expiration
     document.cookie = `lang=${newLang}; path=/; max-age=${60 * 60 * 24 * 365}; SameSite=Lax`;
+    // Refresh the router to update Server Components
+    router.refresh();
   };
 
   const t = (key: string, customFallback?: string): string => {

@@ -34,11 +34,11 @@ export const STARFIELD = {
 
 // ── Camera ──────────────────────────────────────────────────────
 export const CAMERA = {
-  initialPosition: [0, 2, 20] as [number, number, number],
-  fov: 60,
+  initialPosition: [0, 1, 22] as [number, number, number],
+  fov: 68,
   near: 0.1,
   far: 500,
-  parallaxFactor: 0.3,
+  parallaxFactor: 0.25,
   parallaxSmoothing: 0.05,
 } as const;
 
@@ -53,6 +53,30 @@ export const APP_CARD = {
   floatRange: [-0.1, 0.1] as [number, number],
   emissiveIntensity: 3,
   iconSize: 1.2,
+} as const;
+
+// ── Phone 3D Model ──────────────────────────────────────────────
+export const PHONE = {
+  // Chassis
+  width: 1.8,
+  height: 3.7,
+  depth: 0.18,
+  borderRadius: 0.18,
+  // Screen area (inset from chassis)
+  screenW: 1.56,
+  screenH: 3.18,
+  // Image carousel occupies top 60% of screen
+  imageZoneH: 1.92,   // 3.18 * 0.605
+  imageZoneY: 0.63,   // offset from center toward top
+  // Info panel occupies bottom 40% of screen
+  infoPanelH: 1.26,   // 3.18 * 0.395
+  infoPanelY: -0.95,  // offset from center toward bottom
+  // Float params
+  floatSpeed: 1.5,
+  floatIntensity: 0.3,
+  // Render culling
+  renderDistance: 28,
+  renderHysteresis: 3,
 } as const;
 
 // ── Grid ────────────────────────────────────────────────────────

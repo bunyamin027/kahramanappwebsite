@@ -4,6 +4,7 @@ import { LanguageProvider } from "@/context/LanguageContext";
 import { AudioProvider } from "@/context/AudioContext";
 import { ThemeProvider } from "@/context/ThemeContext";
 import "./globals.css";
+import "./marketing.css";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -33,6 +34,8 @@ export const metadata: Metadata = {
   },
 };
 
+import Navbar from "@/components/hud/Navbar";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -44,7 +47,10 @@ export default function RootLayout({
       <body>
         <ThemeProvider>
           <LanguageProvider>
-            <AudioProvider>{children}</AudioProvider>
+            <AudioProvider>
+              <Navbar />
+              {children}
+            </AudioProvider>
           </LanguageProvider>
         </ThemeProvider>
       </body>

@@ -124,6 +124,29 @@ export default function CameraRig() {
     return () => window.removeEventListener("aiNavAndChat", handleNavAndChat);
   }, []);
 
+  // Phone Focus — freeze parallax during GSAP zoom, restore on focus end
+  useEffect(() => {
+    const handleFocusStart = () => {
+      // Kill parallax factor so mouse movement doesn't fight GSAP
+      cameraSettingsRef.current.parallaxFactor = 0;
+    };
+
+    const handleFocusEnd = () => {
+      // Restore base parallax and re-centre initial position
+      cameraSettingsRef.current.initialPosition[0] = CAMERA.initialPosition[0];
+      cameraSettingsRef.current.initialPosition[1] = CAMERA.initialPosition[1];
+      cameraSettingsRef.current.initialPosition[2] = CAMERA.initialPosition[2];
+      cameraSettingsRef.current.parallaxFactor = CAMERA.parallaxFactor;
+    };
+
+    window.addEventListener("phoneFocusStart", handleFocusStart);
+    window.addEventListener("phoneFocusEnd",   handleFocusEnd);
+    return () => {
+      window.removeEventListener("phoneFocusStart", handleFocusStart);
+      window.removeEventListener("phoneFocusEnd",   handleFocusEnd);
+    };
+  }, []);
+
   // Mouse parallax
   useFrame(() => {
     if (!cameraRef.current) return;

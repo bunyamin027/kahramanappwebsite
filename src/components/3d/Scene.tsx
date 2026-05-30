@@ -7,6 +7,7 @@ import { EffectComposer, Bloom, Vignette } from "@react-three/postprocessing";
 import { Bvh, Html } from "@react-three/drei";
 import Starfield from "./Starfield";
 import AppCard3D from "./AppCard3D";
+import PhoneModel3D from "./PhoneModel3D";
 import NeonGrid from "./NeonGrid";
 import CameraRig from "./CameraRig";
 import CarbonTokenSector from "./CarbonTokenSector";
@@ -116,9 +117,9 @@ export default function Scene() {
           {/* ── Cosmic Easter Eggs ──────────────── */}
           <EasterEggs />
 
-          {/* ── App Cards ───────────────────────── */}
+          {/* ── App Phones ──────────────────────────── */}
           {apps.map((app) => (
-            <AppCard3D key={app.id} app={app} />
+            <PhoneModel3D key={app.id} app={app} />
           ))}
         </Bvh>
 

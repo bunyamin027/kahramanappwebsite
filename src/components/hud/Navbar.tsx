@@ -3,6 +3,8 @@
 import { useState, useRef, useEffect } from "react";
 import { useLanguage, SUPPORTED_LANGUAGES } from "@/context/LanguageContext";
 import { useTheme } from "@/context/ThemeContext";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function Navbar() {
   const { lang, setLanguage, t } = useLanguage();
@@ -26,10 +28,16 @@ export default function Navbar() {
   return (
     <nav className="navbar">
       <div className="navbar-brand">
-        <span className="navbar-logo-icon">◆</span>
-        <span className="navbar-logo-text">
-          KAHRAMAN<span className="navbar-logo-accent">APP</span>
-        </span>
+        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '1rem', textDecoration: 'none' }}>
+          <img 
+            src="/logo.png" 
+            alt="KahramanApp Logo" 
+            style={{ width: '64px', height: '64px', borderRadius: '16px', objectFit: 'contain', background: '#fff' }}
+          />
+          <span className="navbar-logo-text" style={{ fontSize: '1.5rem' }}>
+            KAHRAMAN<span className="navbar-logo-accent">APP</span>
+          </span>
+        </Link>
       </div>
 
       <div style={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>

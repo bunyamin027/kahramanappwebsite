@@ -1,67 +1,14 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import * as THREE from "three";
+import { useState, useEffect } from "react";
 import ChatWindow from "./ChatWindow";
 
 /**
- * The 3D pulsing orb that represents the AI Assistant.
+ * Modern 2D floating chat button that replaced the 3D AiOrb.
+ * Keeps the same name and props for backward compatibility with imports.
  */
-function OrbMesh({ hovered, onClick }: { hovered: boolean; onClick: () => void }) {
-  const meshRef = useRef<THREE.Mesh>(null!);
-  const materialRef = useRef<THREE.MeshPhysicalMaterial>(null!);
-
-  useFrame((state, delta) => {
-    if (!meshRef.current) return;
-    
-    // Rotate the orb
-    meshRef.current.rotation.y += delta * 0.5;
-    meshRef.current.rotation.x += delta * 0.2;
-
-    // Pulse the emission intensity
-    const t = state.clock.getElapsedTime();
-    if (materialRef.current) {
-      const basePulse = Math.sin(t * 3) * 0.2 + 0.8;
-      const hoverPulse = hovered ? 1.5 : 1.0;
-      materialRef.current.emissiveIntensity = basePulse * hoverPulse;
-    }
-    
-    // Scale slightly on hover
-    const targetScale = hovered ? 1.1 : 1.0;
-    meshRef.current.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.1);
-  });
-
-  return (
-    <mesh
-      ref={meshRef}
-      onClick={(e) => {
-        e.stopPropagation();
-        onClick();
-      }}
-      onPointerOver={() => (document.body.style.cursor = "pointer")}
-      onPointerOut={() => (document.body.style.cursor = "auto")}
-    >
-      <sphereGeometry args={[1.5, 64, 64]} />
-      <meshPhysicalMaterial
-        ref={materialRef}
-        color="#00f0ff"
-        emissive="#00f0ff"
-        emissiveIntensity={1}
-        roughness={0.1}
-        metalness={0.8}
-        clearcoat={1}
-        clearcoatRoughness={0.1}
-        transmission={0.5}
-        thickness={0.5}
-      />
-    </mesh>
-  );
-}
-
 export default function AiOrb() {
   const [chatOpen, setChatOpen] = useState(false);
-  const [hovered, setHovered] = useState(false);
 
   useEffect(() => {
     const handleNavAndChat = () => {
@@ -73,48 +20,53 @@ export default function AiOrb() {
 
   return (
     <>
-      <div 
-        className="ai-orb-3d-container"
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        style={{
-          position: "fixed",
-          bottom: "20px",
-          right: "20px",
-          width: "120px",
-          height: "120px",
-          zIndex: 1000,
-          pointerEvents: "auto",
-        }}
-      >
-        <Canvas camera={{ position: [0, 0, 4], fov: 45 }}>
-          <ambientLight intensity={0.5} />
-          <pointLight position={[10, 10, 10]} intensity={1} color="#00f0ff" />
-          <pointLight position={[-10, -10, -10]} intensity={0.5} color="#bf00ff" />
-          
-          <OrbMesh 
-            hovered={hovered} 
-            onClick={() => setChatOpen(!chatOpen)} 
-          />
-        </Canvas>
-        
-        {/* Subtle glow behind the canvas */}
-        <div style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          width: "60px",
-          height: "60px",
-          background: "#00f0ff",
-          borderRadius: "50%",
-          filter: "blur(30px)",
-          opacity: hovered ? 0.6 : 0.3,
-          transition: "opacity 0.3s",
-          pointerEvents: "none",
-          zIndex: -1
-        }} />
-      </div>
+      {!chatOpen && (
+        <button
+          onClick={() => setChatOpen(true)}
+          className="ai-chat-trigger-btn"
+          aria-label="Open AI Assistant"
+          style={{
+            position: "fixed",
+            bottom: "24px",
+            right: "24px",
+            width: "60px",
+            height: "60px",
+            borderRadius: "50%",
+            backgroundColor: "#000",
+            color: "#fff",
+            border: "none",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 999,
+            transition: "transform 0.2s ease, box-shadow 0.2s ease",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = "scale(1.05) translateY(-2px)";
+            e.currentTarget.style.boxShadow = "0 6px 16px rgba(0,0,0,0.2)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = "scale(1) translateY(0)";
+            e.currentTarget.style.boxShadow = "0 4px 12px rgba(0,0,0,0.15)";
+          }}
+        >
+          {/* Simple chat bubble SVG icon */}
+          <svg
+            width="28"
+            height="28"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+          </svg>
+        </button>
+      )}
 
       <ChatWindow 
         isOpen={chatOpen} 

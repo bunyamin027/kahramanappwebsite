@@ -22,7 +22,14 @@ export interface AppData {
   screenshots?: string[];
   video_url?: string;
 
+  // README-sourced detail fields
+  features?: string[];
+  techStack?: string[];
+  readmeDescription?: string;
+
   // Translations & ASO
+  readmeDescription_tr?: string;
+  features_tr?: string[];
   name_tr?: string;
   tagline_tr?: string;
   description_tr?: string;

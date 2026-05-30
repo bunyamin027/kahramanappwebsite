@@ -30,7 +30,7 @@ export default function ChatWindow({ isOpen, onClose }: ChatWindowProps) {
       const customEvent = e as CustomEvent;
       const message = customEvent.detail?.message;
       if (message) {
-        sendMessage({ role: "user", parts: [{ type: "text", text: message }] });
+        sendMessage({ text: message });
       }
     };
     window.addEventListener("aiNavAndChat", handleNavAndChat);
@@ -47,7 +47,7 @@ export default function ChatWindow({ isOpen, onClose }: ChatWindowProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
-    sendMessage({ role: "user", parts: [{ type: "text", text: input }] });
+    sendMessage({ text: input });
     setInput("");
   };
 

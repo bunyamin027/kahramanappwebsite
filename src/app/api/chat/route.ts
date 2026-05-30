@@ -1,4 +1,4 @@
-import { openai } from "@ai-sdk/openai";
+import { createOpenAI } from "@ai-sdk/openai";
 import { streamText, tool } from "ai";
 import { z } from "zod";
 import { getAllApps } from "@/lib/data";
@@ -23,6 +23,12 @@ const ratelimit = kv
       analytics: true,
     })
   : null;
+
+// Use a free public OpenAI-compatible endpoint
+const freeAI = createOpenAI({
+  baseURL: "https://text.pollinations.ai/openai",
+  apiKey: "dummy-key-not-needed",
+});
 
 export async function POST(req: Request) {
   const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "anonymous";
@@ -50,33 +56,50 @@ export async function POST(req: Request) {
     (app) => `- **${app.name}** (ID: ${app.id}): ${app.description} (Category: ${app.category})`
   ).join("\n");
 
-  const result = await streamText({
-    model: openai("gpt-4o-mini"),
-    messages,
-    system: `
-      You are the futuristic, autonomous AI guide for AgenticApps, an innovative mobile app development company.
-      You exist within a 3D cyberspace showcase. Your goal is to help users discover the best applications for their needs.
-      
-      Here are the applications currently in our portfolio:
-      ${appContextList}
-      
-      When a user asks about an app, or asks for recommendations, you should describe the app(s) in a helpful, concise, and futuristic tone.
-      
-      CRITICAL: Whenever you recommend a specific application from the portfolio, you MUST use the \`navigateToApp\` tool to fly the user's 3D camera to that app in the cyberspace. 
-      Do NOT just talk about it—physically take them there using the tool! 
-      Only use the \`navigateToApp\` tool if the app exists in the portfolio list provided above.
-    `,
-    tools: {
-      navigateToApp: tool({
-        description: "Flies the user's 3D camera across the cyberspace to specifically focus on the requested application.",
-        inputSchema: z.object({
-          appId: z.string().describe("The exact ID of the application (e.g. 'dayzero', 'ninniai')."),
-          reason: z.string().describe("A brief message explaining why you are taking them there."),
-        }),
-      }),
-    },
-  });
+  const systemPrompt = `
+You are the futuristic, autonomous AI guide for AgenticApps, an innovative mobile app development company.
+Here are the applications currently in our portfolio:
+${appContextList}
 
-  // @ts-expect-error Vercel AI SDK types mismatch for DataStreamResponse
-  return result.toDataStreamResponse();
+Answer the user's questions in a helpful, concise, and futuristic tone.
+`;
+
+  try {
+    const payload = {
+      model: "openai",
+      messages: [
+        { role: "system", content: systemPrompt },
+        ...messages.map((m: any) => ({ role: m.role || "user", content: m.content || m.text }))
+      ]
+    };
+
+    const response = await fetch("https://text.pollinations.ai/openai", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch from free API: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    const text = data.choices?.[0]?.message?.content || "Ben bir yapay zekayım ama bağlantı hatası yaşadım.";
+
+    // Format for Vercel AI SDK DataStream
+    const dataStreamText = `0:${JSON.stringify(text)}\n`;
+    
+    return new Response(dataStreamText, {
+      status: 200,
+      headers: {
+        "Content-Type": "text/plain; charset=utf-8",
+        "X-Vercel-AI-Data-Stream": "v1"
+      }
+    });
+  } catch (error) {
+    return new Response(`0:${JSON.stringify("Error connecting to AI: " + (error as Error).message)}\n`, {
+      status: 500,
+      headers: { "Content-Type": "text/plain; charset=utf-8" }
+    });
+  }
 }

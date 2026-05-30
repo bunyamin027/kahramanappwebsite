@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 54" fill="none">
+  <rect width="200" height="54" rx="10" fill="#ffffff" fill-opacity="0.12"/>
+  <rect x="0.5" y="0.5" width="199" height="53" rx="9.5" stroke="#ffffff" stroke-opacity="0.5"/>
+  <!-- Google Play triangle icon simplified -->
+  <g transform="translate(14, 10)">
+    <path d="M3 2.8L22 17L3 31.2V2.8z" fill="#ffffff" fill-opacity="0.9"/>
+    <path d="M3 2.8L13 13.5L3 14.2z" fill="#ffffff" fill-opacity="0.6"/>
+    <path d="M3 31.2L13 20.5L3 19.8z" fill="#ffffff" fill-opacity="0.6"/>
+  </g>
+  <!-- Text -->
+  <text x="52" y="20" font-family="Arial, sans-serif" font-size="9" font-weight="400" fill="white" fill-opacity="0.75">GET IT ON</text>
+  <text x="52" y="37" font-family="Arial, sans-serif" font-size="18" font-weight="600" fill="white">Google Play</text>
+</svg>
