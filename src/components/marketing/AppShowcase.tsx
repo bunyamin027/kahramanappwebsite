@@ -14,7 +14,7 @@ export default function AppShowcase({ apps }: AppShowcaseProps) {
   const { lang, t } = useLanguage();
 
   return (
-    <section id="app-showcase" className="catalog-wrapper">
+    <section id="apps" className="catalog-wrapper">
       <div className="catalog-grid">
         {apps.map((app, index) => {
           const localizedName = (app[`name_${lang}` as keyof AppData] as string) || app.name;

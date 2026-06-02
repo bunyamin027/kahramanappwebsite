@@ -1,6 +1,7 @@
 import { getAllApps } from "@/lib/data";
 import BioDownloadButton from "./BioDownloadButton";
 import Image from "next/image";
+import Link from "next/link";
 
 export const revalidate = 604800; // 1 week
 
@@ -44,6 +45,10 @@ export default async function LinkInBioPage() {
 
       <footer className="link-in-bio-footer">
         <p className="link-in-bio-footer-text">© {new Date().getFullYear()} KAHRAMAN APP. All rights reserved.</p>
+        <div style={{ display: 'flex', gap: '15px', justifyContent: 'center', marginTop: '10px', fontSize: '14px' }}>
+          <Link href="/privacy" style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none' }}>Privacy Policy</Link>
+          <Link href="/terms" style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none' }}>Terms of Use</Link>
+        </div>
         <div style={{ display: 'flex', gap: '15px', justifyContent: 'center', marginTop: '10px' }}>
           <a href="https://twitter.com/agenticapps" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none' }}>𝕏</a>
           <a href="https://instagram.com/agenticapps" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none' }}>Instagram</a>

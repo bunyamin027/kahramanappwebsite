@@ -59,7 +59,7 @@ export default function HeroSection() {
           <button
             className="hero-cta-primary"
             onClick={() => {
-              const showcase = document.getElementById("app-showcase");
+              const showcase = document.getElementById("apps");
               showcase?.scrollIntoView({ behavior: "smooth" });
             }}
           >

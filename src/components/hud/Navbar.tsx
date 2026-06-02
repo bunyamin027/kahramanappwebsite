@@ -5,12 +5,14 @@ import { useLanguage, SUPPORTED_LANGUAGES } from "@/context/LanguageContext";
 import { useTheme } from "@/context/ThemeContext";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
   const { lang, setLanguage, t } = useLanguage();
   const { theme, toggleTheme } = useTheme();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
 
   // Close dropdown on clicking outside
   useEffect(() => {
@@ -22,6 +24,11 @@ export default function Navbar() {
     document.addEventListener("mousedown", handleOutsideClick);
     return () => document.removeEventListener("mousedown", handleOutsideClick);
   }, []);
+
+  // Hide the main website navbar on admin pages
+  if (pathname && pathname.startsWith("/admin")) {
+    return null;
+  }
 
   const activeLangObj = SUPPORTED_LANGUAGES.find((l) => l.code === lang) || SUPPORTED_LANGUAGES[0];
 

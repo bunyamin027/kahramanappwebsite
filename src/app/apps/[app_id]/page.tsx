@@ -190,8 +190,8 @@ export default async function AppDetailPage({
           &copy; {new Date().getFullYear()} Kahraman App. All rights reserved.
         </p>
         <div className="landing-footer-links">
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms of Service</a>
+          <Link href="/privacy">Privacy Policy</Link>
+          <Link href="/terms">Terms of Use (EULA)</Link>
           <Link href="/#contact">Contact Us</Link>
         </div>
       </footer>
