@@ -250,6 +250,9 @@ const UI_TRANSLATIONS: Record<string, Record<Language, string>> = {
   },
 };
 
+let customSettingsLoaded = false;
+
+
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [lang, setLangState] = useState<Language>("en");
 
@@ -275,6 +278,30 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     // Refresh the router to update Server Components
     router.refresh();
   };
+
+  // Fetch dynamic site settings on mount
+  useEffect(() => {
+    if (customSettingsLoaded) return;
+    
+    fetch('/api/admin/settings')
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.settings) {
+          const s = data.settings;
+          if (s.hero_title_1_tr) UI_TRANSLATIONS.hero_title_1.tr = s.hero_title_1_tr;
+          if (s.hero_title_1_en) UI_TRANSLATIONS.hero_title_1.en = s.hero_title_1_en;
+          if (s.hero_title_2_tr) UI_TRANSLATIONS.hero_title_2.tr = s.hero_title_2_tr;
+          if (s.hero_title_2_en) UI_TRANSLATIONS.hero_title_2.en = s.hero_title_2_en;
+          if (s.about_text_tr) UI_TRANSLATIONS.about_text.tr = s.about_text_tr;
+          if (s.about_text_en) UI_TRANSLATIONS.about_text.en = s.about_text_en;
+          
+          customSettingsLoaded = true;
+          // Force a re-render to apply the new text
+          setLangState(prev => prev);
+        }
+      })
+      .catch(console.error);
+  }, []);
 
   const t = (key: string, customFallback?: string): string => {
     if (UI_TRANSLATIONS[key] && UI_TRANSLATIONS[key][lang]) {

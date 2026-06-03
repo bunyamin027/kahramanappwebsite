@@ -21,7 +21,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }
 
   return (
-    <div className="min-h-screen bg-[#030308] text-white" style={{ fontFamily: "Inter, sans-serif" }}>
+    <div className="min-h-screen bg-[#030308] text-white" style={{ fontFamily: "var(--font-outfit), sans-serif" }}>
       {/* Admin Navbar */}
       <nav className="border-b border-[rgba(0,240,255,0.15)] bg-[rgba(10,10,30,0.6)] backdrop-blur-md sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -3,7 +3,7 @@
 import { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Save, Download, Globe, RefreshCw, Link as LinkIcon } from "lucide-react";
+import { ArrowLeft, Save, Download, Globe, RefreshCw, Link as LinkIcon, Image as ImageIcon, Box, LayoutTemplate, Apple, ExternalLink } from "lucide-react";
 
 export default function EditApp({ params }: { params: Promise<{ app_id: string }> }) {
   const router = useRouter();
@@ -55,14 +55,12 @@ export default function EditApp({ params }: { params: Promise<{ app_id: string }
       if (res.ok) {
         const data = await res.json();
         if (data.app) {
-          // Normalize null values to prevent controlled component warnings
           const normalizedApp = { ...data.app };
           Object.keys(normalizedApp).forEach(key => {
             if (normalizedApp[key] === null) {
               normalizedApp[key] = "";
             }
           });
-          // Ensure screenshots is an array
           if (!Array.isArray(normalizedApp.screenshots)) {
             normalizedApp.screenshots = [];
           }
@@ -128,14 +126,12 @@ export default function EditApp({ params }: { params: Promise<{ app_id: string }
       return;
     }
 
-    // Extract ID from full apple link if user pasted the link
     let storeIdToFetch = formData.app_store_id;
     const match = storeIdToFetch.match(/id(\d+)/);
     if (match) {
       storeIdToFetch = match[1];
       setFormData(prev => ({ ...prev, app_store_id: storeIdToFetch }));
     } else {
-      // Clean up anything that is not a number
       storeIdToFetch = storeIdToFetch.replace(/\D/g, "");
       setFormData(prev => ({ ...prev, app_store_id: storeIdToFetch }));
     }
@@ -150,7 +146,7 @@ export default function EditApp({ params }: { params: Promise<{ app_id: string }
       const res = await fetch(`/api/fetch-app?id=${storeIdToFetch}`);
       if (res.ok) {
         const responseData = await res.json();
-        const data = responseData.app; // GET returns { success: true, app: { trackName: ... } }
+        const data = responseData.app;
         
         if (data) {
           setFormData((prev) => ({
@@ -166,7 +162,6 @@ export default function EditApp({ params }: { params: Promise<{ app_id: string }
             release_date: data.releaseDate || prev.release_date,
             app_store_url: data.trackViewUrl || prev.app_store_url,
             screenshots: data.screenshotUrls?.length > 0 ? data.screenshotUrls : prev.screenshots,
-            // Generate an ID if empty
             id: prev.id || (data.trackName ? data.trackName.toLowerCase().replace(/[^a-z0-9]/g, "-").replace(/-+/g, "-") : prev.id),
           }));
           alert("App Store'dan bilgiler başarıyla çekildi!");
@@ -198,7 +193,6 @@ export default function EditApp({ params }: { params: Promise<{ app_id: string }
           setFormData((prev) => ({
             ...prev,
             description_tr: data.translations.tr.description || prev.description_tr,
-            // You can also use other translated fields if you want them in the form
           }));
           alert("Çeviri başarılı!");
         } else {
@@ -215,221 +209,261 @@ export default function EditApp({ params }: { params: Promise<{ app_id: string }
   };
 
   if (loading) {
-    return <div className="text-white text-center py-20"><RefreshCw className="animate-spin mx-auto mb-4 text-[#00f0ff]" />Yükleniyor...</div>;
+    return <div className="flex flex-col items-center justify-center min-h-[50vh]"><RefreshCw className="animate-spin text-[#00f0ff] mb-4" size={48} /><p className="text-gray-400">Yükleniyor...</p></div>;
   }
 
   return (
-    <div className="w-full pb-20" style={{ maxWidth: '900px', margin: '0 auto', width: '100%' }}>
-      <div className="flex justify-between items-center mb-8">
-        <div className="flex items-center gap-4">
-          <Link href="/admin" className="p-2 text-gray-400 hover:text-white bg-[rgba(255,255,255,0.05)] rounded-lg transition-colors">
-            <ArrowLeft size={20} />
-          </Link>
-          <h1 className="text-3xl font-bold tracking-wide">{isNew ? "Yeni Uygulama" : "Uygulamayı Düzenle"}</h1>
-        </div>
-        <div className="flex flex-wrap gap-3">
-          <button 
-            type="button" 
-            onClick={handleFetchFromStore} 
-            disabled={fetchingStore}
-            className="flex items-center gap-2 px-4 py-2 bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] rounded-xl text-white text-sm hover:bg-[rgba(255,255,255,0.1)] transition-all disabled:opacity-50"
-          >
-            <Download size={16} className={fetchingStore ? "animate-bounce" : ""} /> Store'dan Çek
-          </button>
-          <button 
-            type="button" 
-            onClick={handleTranslate} 
-            disabled={translating}
-            className="flex items-center gap-2 px-4 py-2 bg-[rgba(0,240,255,0.1)] border border-[rgba(0,240,255,0.2)] rounded-xl text-[#00f0ff] text-sm hover:bg-[rgba(0,240,255,0.15)] transition-all disabled:opacity-50"
-          >
-            <Globe size={16} className={translating ? "animate-spin" : ""} /> Otomatik Çevir
-          </button>
-          <button 
-            onClick={handleSave} 
-            disabled={saving}
-            className="flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-[#00f0ff] to-[#0066ff] rounded-xl text-white font-semibold hover:opacity-90 transition-all disabled:opacity-50 shadow-[0_0_15px_rgba(0,240,255,0.3)]"
-          >
-            <Save size={18} className={saving ? "animate-pulse" : ""} /> Kaydet
-          </button>
+    <div className="w-full max-w-5xl mx-auto pb-24">
+      {/* Sticky Header */}
+      <div className="sticky top-0 z-50 bg-[#060612]/90 backdrop-blur-xl border-b border-[rgba(0,240,255,0.15)] py-4 mb-8 -mx-4 px-4 sm:mx-0 sm:px-0">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div className="flex items-center gap-4">
+            <Link href="/admin" className="p-2.5 text-gray-400 hover:text-white bg-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.1)] rounded-xl transition-all shadow-sm">
+              <ArrowLeft size={20} />
+            </Link>
+            <div>
+              <h1 className="text-xl sm:text-2xl font-bold tracking-wide text-white">
+                {isNew ? "Yeni Uygulama" : "Uygulamayı Düzenle"}
+              </h1>
+              {!isNew && <p className="text-xs text-[#00f0ff] font-mono mt-1">{formData.id}</p>}
+            </div>
+          </div>
+          <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+            <button 
+              type="button" 
+              onClick={handleFetchFromStore} 
+              disabled={fetchingStore}
+              className="flex-1 sm:flex-none justify-center flex items-center gap-2 px-4 py-2.5 bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] rounded-xl text-white text-sm hover:bg-[rgba(255,255,255,0.1)] transition-all disabled:opacity-50"
+            >
+              <Download size={16} className={fetchingStore ? "animate-bounce" : ""} /> Store'dan Çek
+            </button>
+            <button 
+              type="button" 
+              onClick={handleTranslate} 
+              disabled={translating}
+              className="flex-1 sm:flex-none justify-center flex items-center gap-2 px-4 py-2.5 bg-[rgba(0,240,255,0.1)] border border-[rgba(0,240,255,0.2)] rounded-xl text-[#00f0ff] text-sm hover:bg-[rgba(0,240,255,0.15)] transition-all disabled:opacity-50"
+            >
+              <Globe size={16} className={translating ? "animate-spin" : ""} /> Çevir
+            </button>
+            <button 
+              onClick={handleSave} 
+              disabled={saving}
+              className="flex-1 sm:flex-none justify-center flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-[#00f0ff] to-[#0066ff] rounded-xl text-white font-bold hover:opacity-90 transition-all disabled:opacity-50 shadow-[0_0_20px_rgba(0,240,255,0.3)] hover:shadow-[0_0_25px_rgba(0,240,255,0.5)]"
+            >
+              <Save size={18} className={saving ? "animate-pulse" : ""} /> {saving ? "Kaydediliyor..." : "Kaydet"}
+            </button>
+          </div>
         </div>
       </div>
 
-      <form className="space-y-8 bg-[rgba(10,10,30,0.6)] backdrop-blur-xl border border-[rgba(0,240,255,0.15)] rounded-2xl p-8 shadow-2xl">
+      <form className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
         
-        {/* Basic Info */}
-        <div className="space-y-6">
-          <h2 className="text-xl font-semibold text-[#00f0ff] border-b border-[rgba(0,240,255,0.1)] pb-2">Temel Bilgiler</h2>
+        {/* Main Grid Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label className="block text-sm text-gray-400 mb-2">ID (URL için, Boşluksuz. Örn: kahraman)</label>
-              <input name="id" value={formData.id} onChange={handleChange} disabled={!isNew} className="w-full bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] rounded-lg p-3 text-white focus:border-[#00f0ff] focus:outline-none transition-colors disabled:opacity-50" />
-            </div>
-            <div>
-              <label className="block text-sm text-gray-400 mb-2">İsim (Name)</label>
-              <input name="name" value={formData.name} onChange={handleChange} className="w-full bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] rounded-lg p-3 text-white focus:border-[#00f0ff] focus:outline-none transition-colors" />
-            </div>
-            <div className="md:col-span-2">
-              <label className="block text-sm text-gray-400 mb-2">Kısa Açıklama (Tagline)</label>
-              <input name="tagline" value={formData.tagline} onChange={handleChange} className="w-full bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] rounded-lg p-3 text-white focus:border-[#00f0ff] focus:outline-none transition-colors" />
-            </div>
-            <div className="md:col-span-2">
-              <label className="block text-sm text-gray-400 mb-2">İngilizce Açıklama (Description)</label>
-              <textarea name="description" value={formData.description} onChange={handleChange} rows={4} className="w-full bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] rounded-lg p-3 text-white focus:border-[#00f0ff] focus:outline-none transition-colors" />
-            </div>
-            <div className="md:col-span-2">
-              <label className="block text-sm text-gray-400 mb-2">Türkçe Açıklama (Description TR)</label>
-              <textarea name="description_tr" value={formData.description_tr} onChange={handleChange} rows={4} className="w-full bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] rounded-lg p-3 text-white focus:border-[#00f0ff] focus:outline-none transition-colors" />
-            </div>
-            <div className="md:col-span-2">
-              <label className="block text-sm text-gray-400 mb-2">İkon URL</label>
-              <input name="icon_url" value={formData.icon_url} onChange={handleChange} className="w-full bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] rounded-lg p-3 text-white focus:border-[#00f0ff] focus:outline-none transition-colors" />
-              {formData.icon_url && <img src={formData.icon_url} alt="icon" className="mt-4 w-16 h-16 rounded-xl border border-[rgba(255,255,255,0.1)] object-cover" />}
-            </div>
-          </div>
-        </div>
-
-        {/* Media */}
-        <div className="space-y-6 pt-6">
-          <h2 className="text-xl font-semibold text-[#00f0ff] border-b border-[rgba(0,240,255,0.1)] pb-2">Medya (Ekran Görüntüleri)</h2>
-          
-          <div className="grid grid-cols-1 gap-6">
-            <div>
-              <label className="block text-sm text-gray-400 mb-2">Video URL (Örn: Youtube veya MP4)</label>
-              <input name="video_url" value={formData.video_url} onChange={handleChange} className="w-full bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] rounded-lg p-3 text-white focus:border-[#00f0ff] focus:outline-none transition-colors" />
-            </div>
+          {/* Left Column (Main Info) */}
+          <div className="lg:col-span-2 space-y-8">
             
-            <div>
-              <label className="block text-sm text-gray-400 mb-2">Ekran Görüntüleri (URL)</label>
-              <div className="flex gap-2 mb-4">
-                <input 
-                  type="text" 
-                  value={screenshotInput} 
-                  onChange={(e) => setScreenshotInput(e.target.value)} 
-                  placeholder="https://..." 
-                  className="flex-1 bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] rounded-lg p-3 text-white focus:border-[#00f0ff] focus:outline-none transition-colors" 
-                  onKeyDown={(e) => { if(e.key === 'Enter') { e.preventDefault(); addScreenshot(); } }}
-                />
-                <button type="button" onClick={addScreenshot} className="px-4 bg-[#00f0ff] text-black font-bold rounded-lg hover:bg-white transition-colors">Ekle</button>
-              </div>
-              <div className="flex flex-wrap gap-4">
-                {formData.screenshots.map((url, i) => (
-                  <div key={i} className="relative group">
-                    <img src={url} alt={`Screenshot ${i}`} className="h-32 object-contain rounded border border-[rgba(255,255,255,0.1)] bg-[rgba(0,0,0,0.5)]" />
-                    <button type="button" onClick={() => removeScreenshot(i)} className="absolute -top-2 -right-2 bg-red-500 text-white w-6 h-6 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">✕</button>
+            {/* Section: Temel Bilgiler */}
+            <div className="bg-[rgba(10,10,30,0.6)] backdrop-blur-xl border border-[rgba(0,240,255,0.15)] rounded-2xl p-6 shadow-2xl">
+              <h2 className="text-base font-semibold text-white flex items-center gap-2 mb-6 border-b border-[rgba(255,255,255,0.05)] pb-4">
+                <LayoutTemplate size={20} className="text-[#00f0ff]" /> Temel Bilgiler
+              </h2>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div className="md:col-span-2 flex gap-6 items-start">
+                  <div className="flex-1 space-y-5">
+                    <div>
+                      <label className="block text-xs uppercase tracking-wider text-gray-400 mb-1.5 font-semibold">Uygulama Adı</label>
+                      <input name="name" value={formData.name} onChange={handleChange} className="w-full bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.1)] rounded-xl p-3 text-white text-lg font-medium focus:border-[#00f0ff] focus:bg-[rgba(0,240,255,0.02)] focus:outline-none transition-all shadow-inner" placeholder="App Name" />
+                    </div>
+                    <div>
+                      <label className="block text-xs uppercase tracking-wider text-gray-400 mb-1.5 font-semibold">URL Slug (ID)</label>
+                      <input name="id" value={formData.id} onChange={handleChange} disabled={!isNew} className="w-full bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.1)] rounded-xl p-3 text-gray-300 font-mono text-sm focus:border-[#00f0ff] focus:outline-none transition-all disabled:opacity-50 disabled:cursor-not-allowed" placeholder="e.g. kahraman-app" />
+                    </div>
                   </div>
-                ))}
+                  
+                  <div className="w-32 flex flex-col items-center">
+                    <label className="block text-xs uppercase tracking-wider text-gray-400 mb-1.5 font-semibold self-start">İkon</label>
+                    <div className="w-28 h-28 rounded-2xl overflow-hidden border-2 border-[rgba(255,255,255,0.1)] bg-[rgba(0,0,0,0.3)] shadow-xl relative group">
+                      {formData.icon_url ? (
+                        <img src={formData.icon_url} alt="App Icon" className="w-full h-full object-cover" />
+                      ) : (
+                        <div className="w-full h-full flex flex-col items-center justify-center text-gray-600">
+                          <ImageIcon size={32} />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="md:col-span-2">
+                  <label className="block text-xs uppercase tracking-wider text-gray-400 mb-1.5 font-semibold">Kısa Açıklama (Tagline)</label>
+                  <input name="tagline" value={formData.tagline} onChange={handleChange} className="w-full bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.1)] rounded-xl p-3 text-white focus:border-[#00f0ff] focus:bg-[rgba(0,240,255,0.02)] focus:outline-none transition-all" placeholder="E.g. The best app for everything" />
+                </div>
+                
+                <div className="md:col-span-2">
+                  <label className="block text-xs uppercase tracking-wider text-gray-400 mb-1.5 font-semibold">İngilizce Açıklama (EN)</label>
+                  <textarea name="description" value={formData.description} onChange={handleChange} rows={5} className="w-full bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.1)] rounded-xl p-3 text-white focus:border-[#00f0ff] focus:bg-[rgba(0,240,255,0.02)] focus:outline-none transition-all leading-relaxed" placeholder="Full description..." />
+                </div>
+                
+                <div className="md:col-span-2">
+                  <label className="block text-xs uppercase tracking-wider text-gray-400 mb-1.5 font-semibold text-[#00f0ff]">Türkçe Açıklama (TR)</label>
+                  <textarea name="description_tr" value={formData.description_tr} onChange={handleChange} rows={5} className="w-full bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.1)] rounded-xl p-3 text-white focus:border-[#00f0ff] focus:bg-[rgba(0,240,255,0.02)] focus:outline-none transition-all leading-relaxed" placeholder="Türkçe açıklama..." />
+                </div>
               </div>
             </div>
-          </div>
-        </div>
 
-        {/* App Store Details */}
-        <div className="space-y-6 pt-6">
-          <h2 className="text-xl font-semibold text-[#00f0ff] border-b border-[rgba(0,240,255,0.1)] pb-2">App Store Detayları</h2>
+            {/* Section: Medya */}
+            <div className="bg-[rgba(10,10,30,0.6)] backdrop-blur-xl border border-[rgba(0,240,255,0.15)] rounded-2xl p-6 shadow-2xl">
+              <h2 className="text-base font-semibold text-white flex items-center gap-2 mb-6 border-b border-[rgba(255,255,255,0.05)] pb-4">
+                <ImageIcon size={20} className="text-[#00f0ff]" /> Medya
+              </h2>
+              
+              <div className="space-y-6">
+                <div>
+                  <label className="block text-xs uppercase tracking-wider text-gray-400 mb-1.5 font-semibold">İkon URL</label>
+                  <input name="icon_url" value={formData.icon_url} onChange={handleChange} className="w-full bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.1)] rounded-xl p-3 text-white focus:border-[#00f0ff] focus:bg-[rgba(0,240,255,0.02)] focus:outline-none transition-all" />
+                </div>
+                
+                <div>
+                  <label className="block text-xs uppercase tracking-wider text-gray-400 mb-1.5 font-semibold">Tanıtım Videosu URL</label>
+                  <input name="video_url" value={formData.video_url} onChange={handleChange} className="w-full bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.1)] rounded-xl p-3 text-white focus:border-[#00f0ff] focus:bg-[rgba(0,240,255,0.02)] focus:outline-none transition-all" placeholder="YouTube or MP4 link" />
+                </div>
+                
+                <div>
+                  <label className="block text-xs uppercase tracking-wider text-gray-400 mb-1.5 font-semibold">Ekran Görüntüleri</label>
+                  <div className="flex gap-2 mb-4">
+                    <input 
+                      type="text" 
+                      value={screenshotInput} 
+                      onChange={(e) => setScreenshotInput(e.target.value)} 
+                      placeholder="https://..." 
+                      className="flex-1 bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.1)] rounded-xl p-3 text-white focus:border-[#00f0ff] focus:bg-[rgba(0,240,255,0.02)] focus:outline-none transition-all" 
+                      onKeyDown={(e) => { if(e.key === 'Enter') { e.preventDefault(); addScreenshot(); } }}
+                    />
+                    <button type="button" onClick={addScreenshot} className="px-6 bg-[#00f0ff] hover:bg-white text-black font-bold rounded-xl transition-colors shadow-[0_0_15px_rgba(0,240,255,0.3)]">Ekle</button>
+                  </div>
+                  
+                  {formData.screenshots.length > 0 ? (
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 p-4 bg-[rgba(0,0,0,0.2)] rounded-xl border border-[rgba(255,255,255,0.05)]">
+                      {formData.screenshots.map((url, i) => (
+                        <div key={i} className="relative group aspect-[9/19] rounded-xl overflow-hidden border border-[rgba(255,255,255,0.1)]">
+                          <img src={url} alt={`Screenshot ${i}`} className="w-full h-full object-cover" />
+                          <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
+                            <button type="button" onClick={() => removeScreenshot(i)} className="bg-red-500 hover:bg-red-600 text-white w-10 h-10 rounded-full flex items-center justify-center transform scale-75 group-hover:scale-100 transition-all shadow-lg">✕</button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="p-8 border-2 border-dashed border-[rgba(255,255,255,0.1)] rounded-xl text-center text-gray-500">
+                      Ekran görüntüsü bulunmuyor.
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+          </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="md:col-span-2">
-              <label className="block text-sm text-gray-400 mb-2">App Store ID veya Linki (Tüm linki yapıştırabilirsiniz)</label>
-              <input name="app_store_id" value={formData.app_store_id} onChange={handleChange} placeholder="Örn: 123456789 veya https://apps.apple.com/app/id123456789" className="w-full bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] rounded-lg p-3 text-white focus:border-[#00f0ff] focus:outline-none transition-colors" />
+          {/* Right Column (Meta & Settings) */}
+          <div className="space-y-8">
+            
+            {/* Section: App Store Details */}
+            <div className="bg-[rgba(10,10,30,0.6)] backdrop-blur-xl border border-[rgba(0,240,255,0.15)] rounded-2xl p-6 shadow-2xl">
+              <h2 className="text-base font-semibold text-white flex items-center gap-2 mb-6 border-b border-[rgba(255,255,255,0.05)] pb-4">
+                <Apple size={20} className="text-[#00f0ff]" /> Store Ayarları
+              </h2>
+              
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-xs uppercase tracking-wider text-gray-400 mb-1.5 font-semibold">Store ID veya URL</label>
+                  <input name="app_store_id" value={formData.app_store_id} onChange={handleChange} className="w-full bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.1)] rounded-xl p-3 text-white focus:border-[#00f0ff] focus:outline-none transition-all" />
+                </div>
+                <div>
+                  <label className="block text-xs uppercase tracking-wider text-gray-400 mb-1.5 font-semibold">Kategori</label>
+                  <input name="category" value={formData.category} onChange={handleChange} className="w-full bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.1)] rounded-xl p-3 text-white focus:border-[#00f0ff] focus:outline-none transition-all" />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs uppercase tracking-wider text-gray-400 mb-1.5 font-semibold">Fiyat ($)</label>
+                    <input name="price" type="number" step="0.01" value={formData.price} onChange={handleChange} className="w-full bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.1)] rounded-xl p-3 text-white focus:border-[#00f0ff] focus:outline-none transition-all" />
+                  </div>
+                  <div>
+                    <label className="block text-xs uppercase tracking-wider text-gray-400 mb-1.5 font-semibold">Versiyon</label>
+                    <input name="version" value={formData.version} onChange={handleChange} className="w-full bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.1)] rounded-xl p-3 text-white focus:border-[#00f0ff] focus:outline-none transition-all" />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-xs uppercase tracking-wider text-gray-400 mb-1.5 font-semibold">Geliştirici</label>
+                  <input name="developer" value={formData.developer} onChange={handleChange} className="w-full bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.1)] rounded-xl p-3 text-white focus:border-[#00f0ff] focus:outline-none transition-all" />
+                </div>
+                <div>
+                  <label className="block text-xs uppercase tracking-wider text-gray-400 mb-1.5 font-semibold">App Store Tam URL</label>
+                  <input name="app_store_url" value={formData.app_store_url} onChange={handleChange} className="w-full bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.1)] rounded-xl p-3 text-white focus:border-[#00f0ff] focus:outline-none transition-all text-xs text-gray-400 font-mono" />
+                </div>
+              </div>
             </div>
-            <div>
-              <label className="block text-sm text-gray-400 mb-2">Bundle ID</label>
-              <input name="bundle_id" value={formData.bundle_id} onChange={handleChange} className="w-full bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] rounded-lg p-3 text-white focus:border-[#00f0ff] focus:outline-none transition-colors" />
+
+            {/* Section: 3D Sahne Ayarları */}
+            <div className="bg-[rgba(10,10,30,0.6)] backdrop-blur-xl border border-[rgba(191,0,255,0.2)] rounded-2xl p-6 shadow-2xl relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-[#bf00ff] opacity-10 rounded-full blur-3xl translate-x-10 -translate-y-10" />
+              <h2 className="text-base font-semibold text-[#bf00ff] flex items-center gap-2 mb-6 border-b border-[rgba(191,0,255,0.1)] pb-4 relative z-10">
+                <Box size={20} /> 3D Sahne Ayarları
+              </h2>
+              
+              <div className="space-y-4 relative z-10">
+                <div>
+                  <label className="block text-xs uppercase tracking-wider text-gray-400 mb-1.5 font-semibold">Neon Vurgu Rengi</label>
+                  <div className="flex items-center gap-3 bg-[rgba(255,255,255,0.03)] p-2 rounded-xl border border-[rgba(255,255,255,0.1)]">
+                    <input type="color" name="color" value={formData.color} onChange={handleChange} className="w-10 h-10 rounded cursor-pointer border-0 bg-transparent p-0" />
+                    <input name="color" value={formData.color} onChange={handleChange} className="w-full bg-transparent text-white font-mono uppercase focus:outline-none" />
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-3 gap-3">
+                  <div>
+                    <label className="block text-[10px] uppercase text-gray-500 mb-1 text-center">Pos X</label>
+                    <input name="position_x" type="number" step="0.1" value={formData.position_x} onChange={handleChange} className="w-full bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.1)] rounded-lg p-2 text-center text-white text-sm focus:border-[#bf00ff] focus:outline-none transition-all" />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] uppercase text-gray-500 mb-1 text-center">Pos Y</label>
+                    <input name="position_y" type="number" step="0.1" value={formData.position_y} onChange={handleChange} className="w-full bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.1)] rounded-lg p-2 text-center text-white text-sm focus:border-[#bf00ff] focus:outline-none transition-all" />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] uppercase text-gray-500 mb-1 text-center">Pos Z</label>
+                    <input name="position_z" type="number" step="0.1" value={formData.position_z} onChange={handleChange} className="w-full bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.1)] rounded-lg p-2 text-center text-white text-sm focus:border-[#bf00ff] focus:outline-none transition-all" />
+                  </div>
+                </div>
+              </div>
             </div>
-            <div>
-              <label className="block text-sm text-gray-400 mb-2">Geliştirici (Developer)</label>
-              <input name="developer" value={formData.developer} onChange={handleChange} className="w-full bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] rounded-lg p-3 text-white focus:border-[#00f0ff] focus:outline-none transition-colors" />
-            </div>
-            <div>
-              <label className="block text-sm text-gray-400 mb-2">Kategori (Category)</label>
-              <input name="category" value={formData.category} onChange={handleChange} className="w-full bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] rounded-lg p-3 text-white focus:border-[#00f0ff] focus:outline-none transition-colors" />
-            </div>
-            <div>
-              <label className="block text-sm text-gray-400 mb-2">Fiyat (USD)</label>
-              <input name="price" type="number" step="0.01" value={formData.price} onChange={handleChange} className="w-full bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] rounded-lg p-3 text-white focus:border-[#00f0ff] focus:outline-none transition-colors" />
-            </div>
-            <div className="md:col-span-2">
-              <label className="block text-sm text-gray-400 mb-2">App Store Tam URL</label>
-              <input name="app_store_url" value={formData.app_store_url} onChange={handleChange} className="w-full bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] rounded-lg p-3 text-white focus:border-[#00f0ff] focus:outline-none transition-colors" />
-            </div>
+
+            {/* Quick Links */}
+            {!isNew && formData.id && (
+              <div className="bg-[rgba(0,240,255,0.02)] backdrop-blur-xl border border-[rgba(0,240,255,0.15)] rounded-2xl p-6">
+                <h2 className="text-sm font-semibold text-[#00f0ff] flex items-center gap-2 mb-4 uppercase tracking-wider">
+                  <ExternalLink size={16} /> Hızlı Linkler
+                </h2>
+                <div className="flex flex-col gap-2.5">
+                  <a href={`/?app=${formData.id}`} target="_blank" rel="noreferrer" className="text-sm text-gray-300 hover:text-white bg-[rgba(255,255,255,0.03)] hover:bg-[rgba(255,255,255,0.1)] p-2.5 rounded-lg transition-all flex items-center justify-between group">
+                    <span>Ana Sayfa Görünümü</span>
+                    <ExternalLink size={14} className="opacity-0 group-hover:opacity-100 text-[#00f0ff] transition-opacity" />
+                  </a>
+                  <a href={`/link-in-bio`} target="_blank" rel="noreferrer" className="text-sm text-gray-300 hover:text-white bg-[rgba(255,255,255,0.03)] hover:bg-[rgba(255,255,255,0.1)] p-2.5 rounded-lg transition-all flex items-center justify-between group">
+                    <span>Link-in-Bio Sayfası</span>
+                    <ExternalLink size={14} className="opacity-0 group-hover:opacity-100 text-[#00f0ff] transition-opacity" />
+                  </a>
+                  <a href={`/en/legal/${formData.id}`} target="_blank" rel="noreferrer" className="text-sm text-gray-300 hover:text-white bg-[rgba(255,255,255,0.03)] hover:bg-[rgba(255,255,255,0.1)] p-2.5 rounded-lg transition-all flex items-center justify-between group">
+                    <span>Privacy Policy (EN)</span>
+                    <ExternalLink size={14} className="opacity-0 group-hover:opacity-100 text-[#00f0ff] transition-opacity" />
+                  </a>
+                </div>
+              </div>
+            )}
+
           </div>
         </div>
-
-        {/* 3D Scene Config */}
-        <div className="space-y-6 pt-6">
-          <h2 className="text-xl font-semibold text-[#bf00ff] border-b border-[rgba(191,0,255,0.1)] pb-2">3D Sahne Ayarları</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div>
-              <label className="block text-sm text-gray-400 mb-2">Neon Renk Kodu</label>
-              <div className="flex items-center gap-3">
-                <input type="color" name="color" value={formData.color} onChange={handleChange} className="w-12 h-12 rounded bg-transparent cursor-pointer" />
-                <input name="color" value={formData.color} onChange={handleChange} className="w-full bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] rounded-lg p-3 text-white focus:border-[#bf00ff] focus:outline-none transition-colors font-mono uppercase" />
-              </div>
-            </div>
-            <div>
-              <label className="block text-sm text-gray-400 mb-2">Position X</label>
-              <input name="position_x" type="number" step="0.1" value={formData.position_x} onChange={handleChange} className="w-full bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] rounded-lg p-3 text-white focus:border-[#bf00ff] focus:outline-none transition-colors" />
-            </div>
-            <div>
-              <label className="block text-sm text-gray-400 mb-2">Position Y</label>
-              <input name="position_y" type="number" step="0.1" value={formData.position_y} onChange={handleChange} className="w-full bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] rounded-lg p-3 text-white focus:border-[#bf00ff] focus:outline-none transition-colors" />
-            </div>
-            <div>
-              <label className="block text-sm text-gray-400 mb-2">Position Z</label>
-              <input name="position_z" type="number" step="0.1" value={formData.position_z} onChange={handleChange} className="w-full bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] rounded-lg p-3 text-white focus:border-[#bf00ff] focus:outline-none transition-colors" />
-            </div>
-          </div>
-        </div>
-
-        {/* Legal Config */}
-        <div className="space-y-6 pt-6">
-          <h2 className="text-xl font-semibold text-[#00f0ff] border-b border-[rgba(0,240,255,0.1)] pb-2">Yasal ve İletişim Bilgileri</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label className="block text-sm text-gray-400 mb-2">Şirket Adı</label>
-              <input name="company_name" value={formData.company_name} onChange={handleChange} className="w-full bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] rounded-lg p-3 text-white focus:border-[#00f0ff] focus:outline-none transition-colors" />
-            </div>
-            <div>
-              <label className="block text-sm text-gray-400 mb-2">İletişim Email</label>
-              <input name="contact_email" value={formData.contact_email} onChange={handleChange} className="w-full bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] rounded-lg p-3 text-white focus:border-[#00f0ff] focus:outline-none transition-colors" />
-            </div>
-          </div>
-        </div>
-
-        {/* Links Preview */}
-        {!isNew && formData.id && (
-          <div className="space-y-6 pt-6 mt-8 border-t border-[rgba(0,240,255,0.1)]">
-            <h2 className="text-xl font-semibold text-[#00f0ff] pb-2 flex items-center gap-2">
-              <LinkIcon size={20} /> Yayınlanan Sayfalar (Hızlı Linkler)
-            </h2>
-            <div className="bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] p-4 rounded-xl flex flex-col gap-3">
-              <div className="flex justify-between items-center text-sm">
-                <span className="text-gray-400">Ana Sayfa:</span>
-                <a href={`/?app=${formData.id}`} target="_blank" rel="noreferrer" className="text-[#00f0ff] hover:underline">kahramanapp.com/?app={formData.id}</a>
-              </div>
-              <div className="flex justify-between items-center text-sm">
-                <span className="text-gray-400">Gizlilik Sözleşmesi (EN):</span>
-                <a href={`/en/legal/${formData.id}`} target="_blank" rel="noreferrer" className="text-[#00f0ff] hover:underline">kahramanapp.com/en/legal/{formData.id}</a>
-              </div>
-              <div className="flex justify-between items-center text-sm">
-                <span className="text-gray-400">Kullanım Koşulları (EULA - EN):</span>
-                <a href={`/en/legal/${formData.id}?type=terms`} target="_blank" rel="noreferrer" className="text-[#00f0ff] hover:underline">kahramanapp.com/en/legal/{formData.id}?type=terms</a>
-              </div>
-              <div className="flex justify-between items-center text-sm">
-                <span className="text-gray-400">Kullanım Koşulları (EULA - TR):</span>
-                <a href={`/tr/legal/${formData.id}?type=terms`} target="_blank" rel="noreferrer" className="text-[#00f0ff] hover:underline">kahramanapp.com/tr/legal/{formData.id}?type=terms</a>
-              </div>
-              <div className="flex justify-between items-center text-sm border-t border-[rgba(255,255,255,0.1)] pt-3 mt-1">
-                <span className="text-gray-400">Ortak Link-in-Bio Sayfası:</span>
-                <a href={`/link-in-bio`} target="_blank" rel="noreferrer" className="text-[#00f0ff] hover:underline">kahramanapp.com/link-in-bio</a>
-              </div>
-            </div>
-          </div>
-        )}
-
       </form>
     </div>
   );

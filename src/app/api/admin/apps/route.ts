@@ -3,6 +3,7 @@ import { createAdminClient } from '@/lib/supabase';
 
 export async function GET(request: Request) {
   const supabase = createAdminClient();
+  if (!supabase) return NextResponse.json({ error: 'Database connection failed' }, { status: 500 });
   const { searchParams } = new URL(request.url);
   const id = searchParams.get('id');
 
@@ -23,9 +24,10 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   const supabase = createAdminClient();
+  if (!supabase) return NextResponse.json({ error: 'Database connection failed' }, { status: 500 });
   try {
     const body = await request.json();
-    const { data, error } = await supabase.from('apps').insert([body]).select();
+    const { data, error } = await supabase.from('apps').insert([body as any]).select();
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 400 });
@@ -39,13 +41,14 @@ export async function POST(request: Request) {
 
 export async function PUT(request: Request) {
   const supabase = createAdminClient();
+  if (!supabase) return NextResponse.json({ error: 'Database connection failed' }, { status: 500 });
   try {
     const body = await request.json();
     const { id, ...updates } = body;
     
     if (!id) return NextResponse.json({ error: 'ID is required' }, { status: 400 });
 
-    const { data, error } = await supabase.from('apps').update(updates).eq('id', id).select();
+    const { data, error } = await supabase.from('apps').update(updates as any).eq('id', id).select();
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 400 });
@@ -59,6 +62,7 @@ export async function PUT(request: Request) {
 
 export async function DELETE(request: Request) {
   const supabase = createAdminClient();
+  if (!supabase) return NextResponse.json({ error: 'Database connection failed' }, { status: 500 });
   const { searchParams } = new URL(request.url);
   const id = searchParams.get('id');
 

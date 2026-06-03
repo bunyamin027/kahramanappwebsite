@@ -38,7 +38,7 @@ export default function AboutSection() {
             viewport={{ once: true, margin: "-100px" }}
             transition={{ delay: 0.2 }}
           >
-            "Biz sadece kod yazmıyoruz; sanat ile teknolojinin kesiştiği noktada, yapay zeka destekli yeni nesil mobil deneyimler inşa ediyoruz. Yazılımın görünmez ama etkisinin devasa olduğu bir vizyonla yola çıktık. Uygulamalarımız sadece birer araç değil; günlük hayatınızı kusursuzlaştıran, estetik ve zekayı bir araya getiren dijital ekosistemlerdir. Sınırları zorluyor, alışılmışın dışına çıkıyor ve her dokunuşunuzda size 'premium' bir deneyim yaşatıyoruz."
+            "{t("about_text", "Biz sadece kod yazmıyoruz; sanat ile teknolojinin kesiştiği noktada, yapay zeka destekli yeni nesil mobil deneyimler inşa ediyoruz.")}"
           </motion.p>
 
           <div className="about-stats-grid">
