@@ -79,6 +79,15 @@ export function proxy(request: NextRequest) {
     }
   }
 
+  // 4.5. Protect /admin routes, but allow access to /admin/login
+  if (pathname.startsWith('/admin') && pathname !== '/admin/login') {
+    const adminToken = request.cookies.get('admin_token')?.value;
+
+    if (!adminToken) {
+      return NextResponse.redirect(new URL('/admin/login', request.url));
+    }
+  }
+
   // 5. Set the lang cookie on response so it persists and is synchronized
   const response = NextResponse.next();
   
