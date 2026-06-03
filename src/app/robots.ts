@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next';
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://kahramanappwebsite-git-main-kahramanapp-s-projects.vercel.app';
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.kahramanapp.com';
 
 export default function robots(): MetadataRoute.Robots {
   return {

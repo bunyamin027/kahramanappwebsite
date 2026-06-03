@@ -21,7 +21,7 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://kahramanappwebsite-git-main-kahramanapp-s-projects.vercel.app'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.kahramanapp.com'),
   title: "AgenticApps — Futuristic Mobile App Showcase",
   description:
     "Explore our universe of innovative mobile applications. AI-powered app discovery in an immersive 3D experience.",

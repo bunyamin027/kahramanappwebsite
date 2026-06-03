@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 import { getAllApps } from '@/lib/data';
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://kahramanappwebsite-git-main-kahramanapp-s-projects.vercel.app';
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.kahramanapp.com';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const apps = await getAllApps();
