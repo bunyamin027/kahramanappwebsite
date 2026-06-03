@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { AppData } from "@/types/app";
 import { Apple, Play } from "lucide-react";
 import Link from "next/link";
-import { useLanguage } from "@/context/LanguageContext";
+import { useLanguage } from "@/context/LanguageContext";import Image from "next/image";
 
 interface AppShowcaseProps {
   apps: AppData[];
@@ -33,7 +33,7 @@ export default function AppShowcase({ apps }: AppShowcaseProps) {
             >
               {/* App Info */}
               <div className="app-info-col">
-                <img src={app.icon} alt={localizedName} className="app-icon-large" />
+                <Image src={app.icon} alt={localizedName} width={128} height={128} className="app-icon-large" />
                 <div>
                   <h2 className="app-title">{localizedName}</h2>
                   <p className="app-tagline">{localizedTagline}</p>
@@ -75,10 +75,10 @@ export default function AppShowcase({ apps }: AppShowcaseProps) {
                 <div className="mockup-notch"></div>
                 {/* Fallback to a gradient if no screenshots exist */}
                 {app.screenshots && app.screenshots.length > 0 ? (
-                  <img src={app.screenshots[0]} alt={`${app.name} screen`} className="mockup-screen" />
+                  <Image src={app.screenshots[0]} alt={`${app.name} screen`} width={400} height={800} className="mockup-screen" />
                 ) : (
                   <div className="w-full h-full flex flex-col items-center justify-center mockup-screen" style={{ background: `linear-gradient(135deg, #111, ${app.color}40)` }}>
-                     <img src={app.icon} alt={app.name} className="w-24 h-24 rounded-2xl shadow-2xl mb-6" />
+                     <Image src={app.icon} alt={app.name} width={96} height={96} className="w-24 h-24 rounded-2xl shadow-2xl mb-6" />
                      <h3 className="font-bold text-xl text-white text-center px-4">{app.name}</h3>
                   </div>
                 )}

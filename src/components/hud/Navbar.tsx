@@ -36,10 +36,12 @@ export default function Navbar() {
     <nav className="navbar">
       <div className="navbar-brand">
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '1rem', textDecoration: 'none' }}>
-          <img 
+          <Image 
             src="/logo.png" 
             alt="KahramanApp Logo" 
-            style={{ width: '64px', height: '64px', borderRadius: '16px', objectFit: 'contain', background: '#fff' }}
+            width={64}
+            height={64}
+            style={{ borderRadius: '16px', objectFit: 'contain', background: '#fff' }}
           />
           <span className="navbar-logo-text" style={{ fontSize: '1.5rem' }}>
             KAHRAMAN<span className="navbar-logo-accent">APP</span>
