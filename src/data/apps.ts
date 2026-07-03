@@ -223,4 +223,76 @@ export const apps: AppData[] = [
     tagline_ja: "デジタル タスビーフ & ズィクル",
     description_ja: "美しくデザインされたデジタルタスビーフカウンター。エレガントで広告のない体験で毎日の祈りを記録しましょう。",
   },
+  {
+    id: "edunote",
+    name: "EduNoteAI",
+    tagline: "Smart Notes & AI Assistant",
+    description: "Modern mobile app for students to organize notes and accelerate learning with AI. Features smart PDF editor, AI assistant, and folder system.",
+    icon: "/icons/edunote.png",
+    color: "#3b82f6",
+    position: [0, 0, 2],
+    category: "productivity",
+    appStoreUrl: "https://apps.apple.com/us/app/edunote-ai/id6783359428",
+    playStoreUrl: undefined,
+    screenshots: [
+      "/screenshots/edunote/1.png",
+      "/screenshots/edunote/2.png",
+      "/screenshots/edunote/3.png",
+    ],
+
+    // README data
+    readmeDescription:
+      "EduNoteAI is a modern mobile application developed for students to organize, manage their lecture notes, and accelerate their learning processes with the power of AI. It is developed with Flutter and includes Supabase integration for robust backend solutions.",
+    features: [
+      "Smart PDF Editor (Canvas) — Free drawing, text addition, and note-taking features on PDF documents (Apple Pencil supported).",
+      "AI Assistant (Chat & Summary) — Have AI read uploaded documents, ask questions, and automatically generate summaries and Flashcards.",
+      "Advanced Folder System — Keep your lecture notes and PDF files organized hierarchically.",
+      "In-App Purchases (StoreKit) — Premium Plan subscriptions offering ad-free/unlimited experience.",
+      "Modern Authentication — Secure login with Supabase infrastructure.",
+      "Account Deletion & Privacy — Fully compliant with App Store guidelines, allowing permanent and secure deletion of user data.",
+    ],
+    techStack: [
+      "Flutter (Dart)",
+      "BLoC Pattern",
+      "Supabase (Auth, Edge Functions, Storage)",
+      "StoreKit",
+      "Hive",
+    ],
+
+    // Turkish
+    readmeDescription_tr:
+      "EduNoteAI, öğrencilerin ders notlarını düzenlemesi, yönetmesi ve yapay zeka gücüyle öğrenme süreçlerini hızlandırması için geliştirilmiş modern bir mobil (iOS/Android) uygulamasıdır. Flutter ile geliştirilmiştir ve güçlü arka uç çözümleri için Supabase entegrasyonu barındırır.",
+    features_tr: [
+      "Akıllı PDF Düzenleyici (Canvas) — PDF dokümanları üzerinde serbest çizim yapma, metin ekleme ve not alma özellikleri (Apple Pencil destekli).",
+      "AI Asistanı (Sohbet & Özet) — Yüklediğiniz dokümanları yapay zekaya okutabilir, doküman hakkında sorular sorabilir, otomatik özetler ve 'Flashcard'lar oluşturabilirsiniz.",
+      "Gelişmiş Klasörleme Sistemi — Ders notlarınızı ve PDF dosyalarınızı hiyerarşik bir şekilde klasörleyip düzenli tutun.",
+      "Uygulama İçi Satın Alımlar (StoreKit) — Ücretsiz kullanım kotaları ve reklamsız/limitsiz deneyim sunan Premium Plan abonelikleri.",
+      "Modern Kimlik Doğrulama — Supabase altyapısıyla güvenli giriş.",
+      "Hesap Silme ve Gizlilik — App Store kurallarına tam uyumlu; kullanıcı verilerinin uygulama içinden kalıcı ve güvenli olarak silinmesini sağlayan altyapı.",
+    ],
+
+    name_tr: "EduNoteAI",
+    tagline_tr: "Akıllı Ders Notları & Yapay Zeka Asistanı",
+    description_tr: "Öğrencilerin ders notlarını düzenlemesi ve yapay zeka ile öğrenmelerini hızlandırması için modern mobil uygulama. Akıllı PDF düzenleyici ve AI asistanı içerir.",
+
+    // Spanish
+    name_es: "EduNoteAI",
+    tagline_es: "Notas Inteligentes y Asistente de IA",
+    description_es: "Aplicación móvil moderna para que los estudiantes organicen notas y aceleren el aprendizaje con IA.",
+
+    // German
+    name_de: "EduNoteAI",
+    tagline_de: "Intelligente Notizen & KI-Assistent",
+    description_de: "Moderne mobile App für Studenten, um Notizen zu organisieren und das Lernen mit KI zu beschleunigen.",
+
+    // French
+    name_fr: "EduNoteAI",
+    tagline_fr: "Notes intelligentes et assistant IA",
+    description_fr: "Application mobile moderne permettant aux étudiants d'organiser leurs notes et d'accélérer l'apprentissage avec l'IA.",
+
+    // Japanese
+    name_ja: "EduNoteAI",
+    tagline_ja: "スマートノートとAIアシスタント",
+    description_ja: "学生がノートを整理し、AIで学習を加速するための最新のモバイルアプリ。",
+  },
 ];
