@@ -295,4 +295,95 @@ export const apps: AppData[] = [
     tagline_ja: "スマートノートとAIアシスタント",
     description_ja: "学生がノートを整理し、AIで学習を加速するための最新のモバイルアプリ。",
   },
+  {
+    id: "zarfim",
+    name: "Zarfım",
+    tagline: "Smart Envelope Budgeting",
+    description:
+      "Take control of your personal finances with the envelope budgeting method. Track your monthly budget, categorize expenses, and see exactly where your money goes — all in a beautiful, secure app.",
+    icon: "/icons/zarfim.png",
+    color: "#F59E0B", // Amber/Gold — Finance theme
+    position: [3, 0, -2],
+    category: "finance",
+    appStoreUrl:
+      "https://apps.apple.com/us/app/zarf%C4%B1m-b%C3%BCt%C3%A7e-takip/id6792155244",
+    playStoreUrl:
+      "https://play.google.com/store/apps/details?id=com.zarfim.app",
+    screenshots: [
+      "/screenshots/zarfim/1.png",
+      "/screenshots/zarfim/2.png",
+      "/screenshots/zarfim/3.png",
+    ],
+
+    // README data — SEO-optimized long description
+    readmeDescription:
+      "Zarfım is a modern personal finance management app that brings the proven envelope budgeting method to your smartphone. Designed for anyone who wants to build healthy spending habits, Zarfım lets you create virtual envelopes for categories like groceries, transportation, and entertainment — each with its own spending limit and real-time progress tracking. With a stunning dark-themed interface and intuitive circular budget chart, managing your monthly budget has never been this elegant and effortless. Your financial data stays 100% private with on-device encryption.",
+    features: [
+      "Envelope Budgeting Method — Divide your expenses into categories like Groceries, Transportation, and Entertainment. Set custom limits for each envelope and track spending in real time.",
+      "Visual Budget Dashboard — See your total budget usage at a glance with an elegant circular chart showing percentage spent and remaining balance.",
+      "Income & Expense Tracking — Monitor Total Budget, Spent, and Remaining amounts with a clean, intuitive summary panel.",
+      "Category Progress Bars — Each envelope displays a color-coded progress bar so you instantly know which categories are on track.",
+      "Dark Mode Interface — A premium dark-themed design that's easy on the eyes during day and night use.",
+      "Bank-Grade Security & Privacy — All financial data is encrypted with AES-256 on your device. No data is sent to external servers. Your privacy is our top priority.",
+      "Cross-Platform — Available for free on both iOS and Android with optional premium features for power users.",
+    ],
+    techStack: [
+      "Flutter (Dart)",
+      "BLoC Pattern",
+      "Hive (Local Storage)",
+      "AES-256 Encryption",
+      "StoreKit & Google Play Billing",
+    ],
+
+    // ── Turkish SEO Content ──────────────────────────────────
+    readmeDescription_tr:
+      "Zarfım, kanıtlanmış zarf bütçe metodunu akıllı telefonunuza getiren modern bir kişisel finans yönetimi uygulamasıdır. Sağlıklı harcama alışkanlıkları edinmek isteyen herkes için tasarlanan Zarfım, Market, Ulaşım ve Eğlence gibi kategoriler için sanal zarflar oluşturmanıza olanak tanır — her birinin kendi harcama limiti ve anlık ilerleme takibi vardır. Çarpıcı koyu temalı arayüzü ve sezgisel dairesel bütçe grafiği ile aylık bütçe yapma bu kadar şık ve zahmetsiz olmamıştı. Güvenli bütçe planlama için tüm finansal verileriniz cihaz üzerinde şifrelenerek %100 gizli kalır.",
+    features_tr: [
+      "Zarf Bütçe Metodu — Harcamalarınızı Market, Ulaşım, Eğlence gibi kategorilere bölün ve her zarfın limitini belirleyerek bütçe takip uygulaması deneyimini yaşayın.",
+      "Görsel Bütçe Panosu — Dairesel grafik ile bütçe kullanım yüzdenizi (ör. %79 kullanıldı) ve kalan bakiyeyi tek bakışta görün. Gelir gider tablosu hep elinizin altında.",
+      "Gelir-Gider Takibi — Toplam Bütçe, Harcanan ve Kalan tutarları anlık izleyin. Ücretsiz harcama takip programı olarak tüm temel özellikler ücretsiz.",
+      "Kategori İlerleme Çubukları — Her zarfın ne kadar harcandığını renk kodlu ilerleme çubuklarıyla takip edin, bütçe aşımını önleyin.",
+      "Koyu Tema (Dark Mode) — Göz yormayan, modern ve şık koyu tema arayüzü ile gece gündüz rahatça kullanın.",
+      "Banka Düzeyinde Güvenlik ve Gizlilik — Tüm finansal veriler cihazınızda AES-256 şifreleme ile korunur. Hiçbir veri harici sunuculara gönderilmez. Güvenli bütçe planlama garantisi.",
+      "Çoklu Platform — iOS ve Android'de ücretsiz indirin, isteğe bağlı premium özelliklerle kişisel finans yönetimi deneyiminizi güçlendirin.",
+    ],
+    name_tr: "Zarfım",
+    tagline_tr: "Akıllı Bütçe Takip ve Finans Yönetimi",
+    description_tr:
+      "Zarfım ile aylık bütçenizi zarflara bölerek harcamalarınızı kontrol altına alın. Market, Ulaşım, Eğlence gibi kategorilerde güvenli bütçe planlama yapın. Ücretsiz bütçe takip uygulaması, iOS ve Android'de.",
+    seo_title_tr: "Zarfım — Akıllı Bütçe Takip Uygulaması | Kişisel Finans",
+    seo_keywords_tr: [
+      "bütçe takip uygulaması",
+      "kişisel finans yönetimi",
+      "ücretsiz harcama takip programı",
+      "gelir gider tablosu",
+      "aylık bütçe yapma",
+      "güvenli bütçe planlama",
+      "zarf bütçe metodu",
+    ],
+
+    // ── Spanish ──────────────────────────────────────────────
+    name_es: "Zarfım",
+    tagline_es: "Presupuesto inteligente con sobres",
+    description_es:
+      "Controla tus finanzas personales con el método de presupuesto por sobres. Rastrea gastos por categoría de forma segura. Gratis en iOS y Android.",
+
+    // ── German ───────────────────────────────────────────────
+    name_de: "Zarfım",
+    tagline_de: "Intelligente Umschlag-Budgetierung",
+    description_de:
+      "Übernehmen Sie die Kontrolle über Ihre Finanzen mit der Umschlag-Budgetmethode. Verfolgen Sie Ausgaben nach Kategorien — sicher und kostenlos.",
+
+    // ── French ───────────────────────────────────────────────
+    name_fr: "Zarfım",
+    tagline_fr: "Budget intelligent par enveloppes",
+    description_fr:
+      "Maîtrisez vos finances avec la méthode budgétaire par enveloppes. Suivez vos dépenses par catégorie en toute sécurité. Gratuit sur iOS et Android.",
+
+    // ── Japanese ─────────────────────────────────────────────
+    name_ja: "Zarfım",
+    tagline_ja: "スマート封筒式予算管理",
+    description_ja:
+      "封筒式予算管理で家計をコントロール。カテゴリ別に支出を追跡し、安全に予算を管理。iOS・Androidで無料。",
+  },
 ];

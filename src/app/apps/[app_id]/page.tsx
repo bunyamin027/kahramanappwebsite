@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { apps } from "@/data/apps";
 import AppStoreBadge from "@/components/ui/AppStoreBadge";
+import PlayStoreBadge from "@/components/ui/PlayStoreBadge";
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { AppData } from "@/types/app";
@@ -107,9 +108,10 @@ export default async function AppDetailPage({
             {localizedReadme}
           </p>
 
-          {app.appStoreUrl && (
-            <div className="app-detail-hero-badge">
-              <AppStoreBadge appStoreUrl={app.appStoreUrl} />
+          {(app.appStoreUrl || app.playStoreUrl) && (
+            <div className="app-detail-hero-badge" style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+              {app.appStoreUrl && <AppStoreBadge appStoreUrl={app.appStoreUrl} />}
+              {app.playStoreUrl && <PlayStoreBadge playStoreUrl={app.playStoreUrl} />}
             </div>
           )}
         </div>
@@ -178,9 +180,14 @@ export default async function AppDetailPage({
           <p className="app-detail-cta-subtitle">
             {localizedDescription}
           </p>
-          {app.appStoreUrl && (
-            <AppStoreBadge appStoreUrl={app.appStoreUrl} />
-          )}
+          <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+            {app.appStoreUrl && (
+              <AppStoreBadge appStoreUrl={app.appStoreUrl} />
+            )}
+            {app.playStoreUrl && (
+              <PlayStoreBadge playStoreUrl={app.playStoreUrl} />
+            )}
+          </div>
         </div>
       </section>
 
