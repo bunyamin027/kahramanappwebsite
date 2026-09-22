@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Inter, Outfit } from "next/font/google";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { AudioProvider } from "@/context/AudioContext";
@@ -61,6 +62,19 @@ export default function RootLayout({
             </AudioProvider>
           </LanguageProvider>
         </ThemeProvider>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-BYG14XL8KW"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-BYG14XL8KW');
+          `}
+        </Script>
       </body>
     </html>
   );
